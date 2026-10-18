@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Dependencies & Build Web App Bundle
         run: |
-          npm install
+          npm install --legacy-peer-deps --force
           npm run build
 
       - name: Initialize Capacitor Android Native Project
