@@ -28,8 +28,6 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
-      - name: Setup Android SDK Tools
-        uses: android-actions/setup-android@v3
 
       - name: Install Dependencies & Build Web App Bundle
         run: |
