@@ -1,0 +1,6 @@
+{
+  "name": "AwaazAI - Smart Call & Message Assistant",
+  "description": "Automated multilingual AI voice caller, smart call and WhatsApp/SMS reminder scheduler, UPI payment gateway, and admin earnings dashboard.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

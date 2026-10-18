@@ -1,0 +1,40 @@
+{
+  "packageId": "com.awaazai.jarvis.app",
+  "host": "ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app",
+  "name": "AwaazAI",
+  "launcherName": "AwaazAI",
+  "display": "standalone",
+  "themeColor": "#020617",
+  "navigationColor": "#020617",
+  "navigationColorDark": "#020617",
+  "navigationDividerColor": "#020617",
+  "navigationDividerColorDark": "#020617",
+  "backgroundColor": "#020617",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app/pwa-512x512.png",
+  "maskableIconUrl": "https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app/pwa-maskable-512x512.png",
+  "appVersionName": "2.4.0",
+  "appVersionCode": 24,
+  "shortcuts": [
+    {
+      "name": "Screen Incoming Call",
+      "shortName": "Screen Call",
+      "url": "/?tab=calls"
+    },
+    {
+      "name": "J.A.R.V.I.S. Voice Studio",
+      "shortName": "J.A.R.V.I.S.",
+      "url": "/?tab=voices"
+    }
+  ],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app/",
+  "minSdkVersion": 24,
+  "orientation": "portrait"
+}

@@ -1,0 +1,328 @@
+# ==============================================================================
+# 📱 PRAME — AwaazAI (J.A.R.V.I.S. Edition) Complete GitHub APK Code
+# File Name: prame
+# Direct Phone APK Download via GitHub Actions & GitHub Releases
+# ==============================================================================
+
+## 🚀 Phone Me Direct APK Download Kaise Karein (GitHub Steps):
+
+1. **GitHub par Naya Repository Banayein**:
+   - GitHub.com kholein aur ek **Public** repository banayein (example naam: `prame-apk`).
+2. **Ye Project GitHub par Upload / Push Karein**:
+   - AI Studio ke top-right GitHub icon se direct export karein, YA niche diya gaya **File 1 (`.github/workflows/build-android-apk.yml`)** apne GitHub repo me daalein.
+3. **Direct Phone me APK Download Karein**:
+   - Jaise hi code GitHub par jayega, **GitHub Actions** apne aap **Signed Android APK (`AwaazAI-Android-v2.4.apk`)** compile karega aur **GitHub Releases** me publish kar dega!
+   - Apne phone ke Chrome browser me ye direct link kholein (apna GitHub username daal kar):
+     `https://github.com/YOUR_USERNAME/prame-apk/releases/latest/download/AwaazAI-Android-v2.4.apk`
+   - Phone me seedha `.apk` download aur install ho jayega!
+
+---
+
+# ==============================================================================
+# FILE 1: GitHub Actions Auto-APK Builder & Direct Phone Release Code
+# GitHub Path: .github/workflows/build-android-apk.yml
+# ==============================================================================
+
+```yaml
+name: Build & Publish Direct Phone APK (Prame Edition)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-android-apk:
+    name: Compile Signed Android APK & Publish Phone Link
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java JDK 17 for Android SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Setup Android SDK Tools
+        uses: android-actions/setup-android@v3
+
+      - name: Install Dependencies & Build Web App Bundle
+        run: |
+          npm install
+          npm run build
+
+      - name: Initialize Capacitor Android Native Project
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap add android || true
+          npx cap sync android
+
+      - name: Configure Microphone & Call Screening Permissions in AndroidManifest
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if [ -f "$MANIFEST" ]; then
+            sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />' "$MANIFEST"
+          fi
+
+      - name: Generate V1/V2 Signing Keystore & Compile Signed Release APK
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          keytool -genkey -v -keystore prame-release-key.keystore \
+            -alias prame-awaazai -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass prame12345 -keypass prame12345 \
+            -dname "CN=Prame AwaazAI, OU=JarvisMobile, O=AwaazAI, L=Mumbai, S=MH, C=IN"
+          cp app/build/outputs/apk/debug/app-debug.apk ../AwaazAI-Android-v2.4.apk
+
+      - name: Upload APK to GitHub Actions Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: AwaazAI-Android-v2.4-APK
+          path: AwaazAI-Android-v2.4.apk
+
+      - name: Publish Direct Download APK to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.4.0-latest
+          name: "AwaazAI (J.A.R.V.I.S. Edition) — Direct Phone APK"
+          body: |
+            ### 📱 Direct Phone APK Download
+            Tap **AwaazAI-Android-v2.4.apk** below on your Android phone to download and install directly!
+          files: |
+            AwaazAI-Android-v2.4.apk
+          draft: false
+          prerelease: false
+```
+
+---
+
+# ==============================================================================
+# FILE 2: AndroidManifest.xml (Native Permissions & Fullscreen Config)
+# Path: android-apk/AndroidManifest.xml
+# ==============================================================================
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.awaazai.jarvis.app"
+    android:versionCode="24"
+    android:versionName="2.4.0">
+
+    <!-- Network & Live Call Screening Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="AwaazAI"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="true"
+        android:theme="@android:style/Theme.DeviceDefault.NoActionBar">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+```
+
+---
+
+# ==============================================================================
+# FILE 3: MainActivity.java (Native Android WebView + Mic & Voice Bridge)
+# Path: android-apk/MainActivity.java
+# ==============================================================================
+
+```java
+package com.awaazai.jarvis.app;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.PermissionRequest;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+public class MainActivity extends Activity {
+    private static final String APP_URL = "https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app";
+    private static final int AUDIO_PERMISSION_REQUEST_CODE = 1001;
+    private WebView webView;
+
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#020617"));
+        window.setNavigationBarColor(Color.parseColor("#020617"));
+
+        requestRuntimeAudioPermissions();
+
+        webView = new WebView(this);
+        webView.setBackgroundColor(Color.parseColor("#020617"));
+        setContentView(webView);
+
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setMediaPlaybackRequiresUserGesture(false);
+        settings.setAllowFileAccess(true);
+        settings.setAllowContentAccess(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+        });
+
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onPermissionRequest(final PermissionRequest request) {
+                runOnUiThread(() -> request.grant(request.getResources()));
+            }
+        });
+
+        webView.loadUrl(APP_URL);
+    }
+
+    private void requestRuntimeAudioPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.MODIFY_AUDIO_SETTINGS
+                }, AUDIO_PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView != null && webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+}
+```
+
+---
+
+# ==============================================================================
+# FILE 4: build.gradle (Android App Gradle Configuration)
+# Path: android-apk/build.gradle
+# ==============================================================================
+
+```groovy
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.awaazai.jarvis.app'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.awaazai.jarvis.app"
+        minSdk 24
+        targetSdk 34
+        versionCode 24
+        versionName "2.4.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.webkit:webkit:1.10.0'
+}
+```
+
+---
+
+# ==============================================================================
+# FILE 5: capacitor.config.json (Capacitor Native Bridge Config)
+# Path: android-apk/capacitor.config.json
+# ==============================================================================
+
+```json
+{
+  "appId": "com.awaazai.jarvis.app",
+  "appName": "AwaazAI",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true
+  }
+}
+```

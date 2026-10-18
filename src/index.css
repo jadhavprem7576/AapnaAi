@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --theme-primary: #6366f1;
+    --theme-glow: rgba(99, 102, 241, 0.25);
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #060913;
+    color: #f1f5f9;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbars and glow effects */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Shimmer animation for VIP and special highlights */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px var(--theme-glow);
+  }
+  50% {
+    box-shadow: 0 0 35px var(--theme-glow);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.5s infinite;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+/* Theme accent backdrop highlights */
+.theme-indigo {
+  --theme-primary: #6366f1;
+  --theme-glow: rgba(99, 102, 241, 0.35);
+}
+
+.theme-emerald {
+  --theme-primary: #10b981;
+  --theme-glow: rgba(16, 185, 129, 0.35);
+}
+
+.theme-amber {
+  --theme-primary: #f59e0b;
+  --theme-glow: rgba(245, 158, 11, 0.35);
+}
+
+.theme-purple {
+  --theme-primary: #a855f7;
+  --theme-glow: rgba(168, 85, 247, 0.35);
+}
+
+.theme-cyan {
+  --theme-primary: #06b6d4;
+  --theme-glow: rgba(6, 182, 212, 0.35);
+}
+
+.theme-crimson {
+  --theme-primary: #f43f5e;
+  --theme-glow: rgba(244, 63, 94, 0.35);
+}

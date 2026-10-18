@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>PayloadContent</key>
+  <array>
+    <dict>
+      <key>FullScreen</key>
+      <true/>
+      <key>IsRemovable</key>
+      <true/>
+      <key>Label</key>
+      <string>AwaazAI</string>
+      <key>PayloadDescription</key>
+      <string>Configures AwaazAI Equal AI &amp; J.A.R.V.I.S. Call Assistant on iOS Home Screen</string>
+      <key>PayloadDisplayName</key>
+      <string>AwaazAI iOS App (J.A.R.V.I.S. Edition)</string>
+      <key>PayloadIdentifier</key>
+      <string>com.awaazai.jarvis.webclip</string>
+      <key>PayloadType</key>
+      <string>com.apple.webClip.managed</string>
+      <key>PayloadUUID</key>
+      <string>39B0EE70-5072-42D2-A63B-4DCC32F575C7</string>
+      <key>PayloadVersion</key>
+      <integer>1</integer>
+      <key>Precomposed</key>
+      <true/>
+      <key>URL</key>
+      <string>https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app</string>
+    </dict>
+  </array>
+  <key>PayloadDescription</key>
+  <string>Installs AwaazAI - Equal AI &amp; J.A.R.V.I.S. Smart Call Assistant on your iPhone or iPad.</string>
+  <key>PayloadDisplayName</key>
+  <string>AwaazAI iOS Installer (v2.4)</string>
+  <key>PayloadIdentifier</key>
+  <string>com.awaazai.jarvis.profile</string>
+  <key>PayloadOrganization</key>
+  <string>AwaazAI Studio</string>
+  <key>PayloadRemovalDisallowed</key>
+  <false/>
+  <key>PayloadType</key>
+  <string>Configuration</string>
+  <key>PayloadUUID</key>
+  <string>78A1CC20-9012-48B1-991A-4DCC32F575C7</string>
+  <key>PayloadVersion</key>
+  <integer>1</integer>
+</dict>
+</plist>

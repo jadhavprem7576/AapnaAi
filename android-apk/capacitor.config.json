@@ -1,0 +1,21 @@
+{
+  "appId": "com.awaazai.jarvis.app",
+  "appName": "AwaazAI",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://ais-pre-k2tx2w4mficbzbfl6iv6wp-23015944067.asia-east1.run.app",
+    "cleartext": true
+  },
+  "android": {
+    "backgroundColor": "#020617",
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true
+  },
+  "ios": {
+    "backgroundColor": "#020617",
+    "contentInset": "always",
+    "allowsLinkPreview": false
+  }
+}

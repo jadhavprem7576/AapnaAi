@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "name": "AwaazAI - Smart Call & Message Assistant",
+  "short_name": "AwaazAI",
+  "description": "Automated multilingual AI voice caller, Equal AI & J.A.R.V.I.S. call screening, and WhatsApp/SMS reminder assistant.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#020617",
+  "background_color": "#020617",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+name: Build & Publish Direct Phone APK (Prame Edition)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-android-apk:
+    name: Compile Signed Android APK & Publish Phone Link
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Setup Java JDK 17 for Android SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Setup Android SDK Tools
+        uses: android-actions/setup-android@v3
+
+      - name: Install Dependencies & Build Web App Bundle
+        run: |
+          npm install
+          npm run build
+
+      - name: Initialize Capacitor Android Native Project
+        run: |
+          npm install @capacitor/core @capacitor/cli @capacitor/android
+          npx cap add android || true
+          npx cap sync android
+
+      - name: Configure Microphone & Call Screening Permissions in AndroidManifest
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if [ -f "$MANIFEST" ]; then
+            sed -i '/<\/manifest>/i \    <uses-permission android:name="android.permission.RECORD_AUDIO" />\n    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />' "$MANIFEST"
+          fi
+
+      - name: Generate V1/V2 Signing Keystore & Compile Signed Release APK
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+          keytool -genkey -v -keystore prame-release-key.keystore \
+            -alias prame-awaazai -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass prame12345 -keypass prame12345 \
+            -dname "CN=Prame AwaazAI, OU=JarvisMobile, O=AwaazAI, L=Mumbai, S=MH, C=IN"
+          cp app/build/outputs/apk/debug/app-debug.apk ../AwaazAI-Android-v2.4.apk
+
+      - name: Upload APK to GitHub Actions Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: AwaazAI-Android-v2.4-APK
+          path: AwaazAI-Android-v2.4.apk
+
+      - name: Publish Direct Download APK to GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v2.4.0-latest
+          name: "AwaazAI (J.A.R.V.I.S. Edition) — Direct Phone APK"
+          body: |
+            ### 📱 Direct Phone APK Download
+            Tap **AwaazAI-Android-v2.4.apk** below on your Android phone to download and install directly!
+          files: |
+            AwaazAI-Android-v2.4.apk
+          draft: false
+          prerelease: false
